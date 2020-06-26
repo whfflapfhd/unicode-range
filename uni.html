@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Find unicode</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var uniCode;
+        function callback (data) {
+            uniCode = data
+        }
+    </script>
+    <script type="text/javascript" src="uni.json"></script>
+
+</head>
+<body>
+<form name='unicodeRange' action="#">
+    <input type="text" name="codeList" />
+    <button type="button">Get</button>
+</form>
+</body>
+<script type="text/javascript">
+    //<![CDATA[
+        var result = [];
+        $("button").on("click",function(){
+            result = [];
+            var cd = unicodeRange.codeList.value;
+            cd = cd.replace(/\U\+/g,'').replace(/\s/g,'').toUpperCase().split(',');
+            cd.forEach(function(ele){
+                if(ele.indexOf("-") > 0){
+                    getRange(ele)
+                }else{
+                    result.push(uniCode[ele])
+                }
+            });
+            console.log(result)
+        });
+        function getRange(r){
+            var r= r.split("-");
+            var at = getIndex(uniCode,r[0]);
+            var until = getIndex(uniCode,r[1]);
+            for(var i = at;i < until+1; i++){
+                var k  = Object.keys(uniCode)[i];
+                result.push(uniCode[k]);
+            }
+        }
+        function getIndex(obj,val){
+            var val = val.toUpperCase();
+            return Object.keys(obj).indexOf(val)
+        }
+    //]]>
+    </script>
+</html>
