@@ -2,25 +2,86 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Find unicode</title>
+    <title>Conversion unicode to character</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <style type="text/css">
+        @font-face {
+              font-family: 'nexon-l-origin';
+              src: url('Nexon-web/NEXON-Lv1-Gothic-Low-OTF-Light.woff') format('woff'),
+                   url('Nexon-web/NEXON-Lv1-Gothic-Low-OTF-Light.eot') format('eot');
+              font-weight: 100;
+              font-style: normal;
+            }
+        @font-face {
+              font-family: 'nexon-l';
+              src: url('Nexon-Gothic/subset/Nexon-Gothic-Light-Subset.woff') format('woff'),
+                   url('Nexon-Gothic/subset/Nexon-Gothic-Light-Subset.eot') format('eot');
+              font-weight: 100;
+              font-style: normal;
+            }
+        .character {margin-top:50px}
+        .character,.c1,.c2 {padding:15px;border:1px solid #d9d9d9}
+        .c1 {margin-top:20px;font-family:'nexon-l-origin','궁서',sans-serif}
+        .c2 {margin-top:20px;font-family:'nexon-l','궁서',sans-serif}
+    </style>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        var uniCode;
-        function callback (data) {
-            uniCode = data
-        }
-    </script>
-    <script type="text/javascript" src="uni.json"></script>
-
 </head>
 <body>
 <form name='unicodeRange' action="#">
     <input type="text" name="codeList" />
-    <button type="button">Get</button>
+    <button type="button">conversion</button>
+    <div class="character"></div>
+    <div class="c1">
+        <p>0123456789</p>
+        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eum, maxime fugit blanditiis ratione cumque eius sint debitis laboriosam eos id ipsam ab possimus tenetur provident sequi numquam dolorum facilis!
+    </div>
+    <div class="c2">
+        <p>0123456789</p>
+        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt, voluptatibus, nobis, asperiores ad nam quibusdam accusamus officia illum assumenda quas delectus odio ratione rem soluta dolores est alias molestias sint.
+    </div>
 </form>
 </body>
 <script type="text/javascript">
+//<![CDATA[
+    var result = [];
+    $("button").on("click",function(){
+        result = [];
+        var cd = unicodeRange.codeList.value;
+        cd = cd.replace(/[U+.]/g,'').replace(/\s/g,'').toUpperCase().split(',');
+        cd.forEach(function(ele){
+            if(ele.indexOf("-") > 0){
+                getRange(ele)
+            }else{
+                ele = Number("0x"+ele);
+                var str = String.fromCharCode(ele);
+                result.push(str);                
+            }
+        });
+        $(".character").html(result.join("").toString(16))
+    });
+
+    function getRange(r){
+        var r= r.split("-");
+        var at = Number("0x"+r[0]);
+        var until = Number("0x"+r[1]);
+        for(var i = at;i < until+1; i++){
+            var str = String.fromCharCode(i);
+            result.push(str);
+        }
+    }
+    /*
+    function getIndex(obj,val){
+        var val = "0x"+val.toUpperCase();
+        return Object.keys(obj).indexOf(val)
+    }
+    */
+//]]>
+</script>
+<script type="text/javascript">
     //<![CDATA[
+        /*
         var result = [];
         $("button").on("click",function(){
             result = [];
@@ -48,6 +109,7 @@
             var val = val.toUpperCase();
             return Object.keys(obj).indexOf(val)
         }
+        */
     //]]>
     </script>
 </html>
