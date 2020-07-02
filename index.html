@@ -2,53 +2,42 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Conversion unicode to character</title>
+    <title>유니코드 문자 변환</title>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <style type="text/css">
-        @font-face {
-              font-family: 'nexon-l-origin';
-              src: url('Nexon-web/NEXON-Lv1-Gothic-Low-OTF-Light.woff') format('woff'),
-                   url('Nexon-web/NEXON-Lv1-Gothic-Low-OTF-Light.eot') format('eot');
-              font-weight: 100;
-              font-style: normal;
-            }
-        @font-face {
-              font-family: 'nexon-l';
-              src: url('Nexon-Gothic/subset/Nexon-Gothic-Light-Subset.woff') format('woff'),
-                   url('Nexon-Gothic/subset/Nexon-Gothic-Light-Subset.eot') format('eot');
-              font-weight: 100;
-              font-style: normal;
-            }
-        .character {margin-top:50px}
-        .character,.c1,.c2 {padding:15px;border:1px solid #d9d9d9}
-        .c1 {margin-top:20px;font-family:'nexon-l-origin','궁서',sans-serif}
-        .c2 {margin-top:20px;font-family:'nexon-l','궁서',sans-serif}
+        * {margin:0;padding:0;box-sizing:border-box}
+        body {background:#eaeaea}
+        h1 {margin-top:100px;color:#444;text-align:center}
+        .input-area {margin-top:30px;font-size:0;text-align:center}
+        .input-area + p {margin-top:15px;color:#888;text-align:center}
+        .input-area * {display:inline-block;vertical-align:top}
+        .input-area input[type='text'] {width:40%;padding:0 20px;color:#7d8ca0;font-size:20px;line-height:2.3;border:2px solid #197bff;border-right:0}
+        .btn-convert {overflow:hidden;position:relative;width:50px;height:50px;color:transparent;border:0 none;outline:0 none;background:#197bff}        
+        .input-area input[type='text']:focus {outline:0 none;border-color:#5505e6}
+        .input-area input[type='text']:focus + .btn-convert {background:#5505e6}
+        .btn-convert:before,.btn-convert:after {content:'';position:absolute}
+        .btn-convert:before {left:9px;top:9px;width:18px;height:18px;border:4px solid #fff;border-radius:50%}
+        .btn-convert:after {left:32px;top:28px;width:0;height:14px;border-left:4px solid #fff;transform:rotate(-45deg)}
+        .output-area {width:90%;margin:50px auto 0;padding:15px;color:#637996;line-height:1.7;word-break: break-all;background:#fff;transform:scaleY(0);transition:.4s all cubic-bezier(1, 0.01, 0, 1.01)}
+        .output-area.on {transform:scaleY(1)}
     </style>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<form name='unicodeRange' action="#">
-    <input type="text" name="codeList" />
-    <button type="button">conversion</button>
-    <div class="character"></div>
-    <div class="c1">
-        <p>0123456789</p>
-        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eum, maxime fugit blanditiis ratione cumque eius sint debitis laboriosam eos id ipsam ab possimus tenetur provident sequi numquam dolorum facilis!
+    <h1>Convert Unicode to Text</h1>
+    <div class="input-area">        
+        <input type="text" class="code-list" />
+        <button type="button" class="btn-convert">변환</button>
     </div>
-    <div class="c2">
-        <p>0123456789</p>
-        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt, voluptatibus, nobis, asperiores ad nam quibusdam accusamus officia illum assumenda quas delectus odio ratione rem soluta dolores est alias molestias sint.
-    </div>
-</form>
+    <p>ex) U+AC00 || U+AC00-AC05 || U+AC00, U+AC05-AC0F</p>
+    <div class="output-area"></div>
 </body>
 <script type="text/javascript">
 //<![CDATA[
-    var result = [];
-    $("button").on("click",function(){
+    var result;
+    $(".btn-convert").on("click",function(){
         result = [];
-        var cd = unicodeRange.codeList.value;
+        var cd = $(".code-list").val();
         cd = cd.replace(/[U+.]/g,'').replace(/\s/g,'').toUpperCase().split(',');
         cd.forEach(function(ele){
             if(ele.indexOf("-") > 0){
@@ -56,10 +45,11 @@
             }else{
                 ele = Number("0x"+ele);
                 var str = String.fromCharCode(ele);
-                result.push(str);                
+                result.push(str);
             }
         });
-        $(".character").html(result.join("").toString(16))
+        $(".output-area").html(result.join("").toString(16)).addClass("on").selectText();
+        //document.execCommand("copy");
     });
 
     function getRange(r){
@@ -71,45 +61,21 @@
             result.push(str);
         }
     }
-    /*
-    function getIndex(obj,val){
-        var val = "0x"+val.toUpperCase();
-        return Object.keys(obj).indexOf(val)
-    }
-    */
+    jQuery.fn.selectText = function(){        
+        var doc = document;
+        var element = this[0];
+        if (doc.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(element);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();        
+            var range = document.createRange();
+            range.selectNodeContents(element);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    };
 //]]>
 </script>
-<script type="text/javascript">
-    //<![CDATA[
-        /*
-        var result = [];
-        $("button").on("click",function(){
-            result = [];
-            var cd = unicodeRange.codeList.value;
-            cd = cd.replace(/\U\+/g,'').replace(/\s/g,'').toUpperCase().split(',');
-            cd.forEach(function(ele){
-                if(ele.indexOf("-") > 0){
-                    getRange(ele)
-                }else{
-                    result.push(uniCode[ele])
-                }
-            });
-            console.log(result)
-        });
-        function getRange(r){
-            var r= r.split("-");
-            var at = getIndex(uniCode,r[0]);
-            var until = getIndex(uniCode,r[1]);
-            for(var i = at;i < until+1; i++){
-                var k  = Object.keys(uniCode)[i];
-                result.push(uniCode[k]);
-            }
-        }
-        function getIndex(obj,val){
-            var val = val.toUpperCase();
-            return Object.keys(obj).indexOf(val)
-        }
-        */
-    //]]>
-    </script>
 </html>

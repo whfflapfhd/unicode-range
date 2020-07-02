@@ -11,7 +11,24 @@ for ext in ttf woff woff2; do
     if [ $ext != ttf ]; then
         flavor=$ext
     fi
-    pyftsubset "$p" --flavor=$flavor --output-file="$output_file" --text-file=$(dirname   "$output_file")/glyphs.txt --unicodes="U+2603,U+E000,U+E001" --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --drop-tables=
+    pyftsubset "$p" \
+    --flavor=$flavor \
+    --with-zopfli \
+    --output-file="$output_file" \
+    --text-file=$(dirname   "$output_file")/glyphs.txt \
+    --unicodes="U+2603,U+E000,U+E001" \
+    --layout-features='*'   \
+    --glyph-names \
+    --symbol-cmap \
+    --legacy-cmap \
+    --notdef-glyph \
+    --notdef-outline \
+    --recommended-glyphs \
+    --name-IDs='*' \
+    --name-legacy \
+    --name-languages='*' \
+    --drop-tables= \
+    –no-subset-tables + = FFTM
     if [ $? ]; then
       printf "done!\n"
     fi

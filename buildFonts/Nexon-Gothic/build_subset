@@ -1,0 +1,23 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SUB=$DIR/Subset
+
+function makeSubset(){
+	local val=$1
+	mkdir -p $SUB/sub${val}
+	for p in $DIR/Original/*.ttf; do
+		filename=$(basename "$p")
+		title="${filename%.ttf}"
+		printf "Making \e[1m\e[34m$title.$ext\e[0m..."
+		output_file=${p/Original/Subset/sub${val}}
+		pyftsubset "$p" --output-file="$output_file" --text-file=$(dirname   "$DIR")/glyphs/glyphs${val}.txt --unicodes="U+2603,U+E000,U+E001" --layout-features='*' --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --drop-tables= --passthrough-tables
+		pyftsubset "$p" --flavor="woff" --with-zopfli --output-file="${output_file/ttf/woff}" --text-file=$(dirname   "$DIR")/glyphs/glyphs${val}.txt --unicodes="U+2603,U+E000,U+E001" --layout-features='*' --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --drop-tables= --passthrough-tables
+		pyftsubset "$p" --flavor="woff2" --output-file="${output_file/ttf/woff2}" --text-file=$(dirname   "$DIR")/glyphs/glyphs${val}.txt --unicodes="U+2603,U+E000,U+E001" --layout-features='*' --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --drop-tables= --passthrough-tables
+		if [ $? ]; then
+			printf "done!\n"
+		fi
+	done
+}
+for i in {2..3};do
+	makeSubset $i
+done
