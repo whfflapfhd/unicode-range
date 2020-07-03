@@ -8,60 +8,113 @@
         * {margin:0;padding:0;box-sizing:border-box}
         body {background:#eaeaea}
         h1 {margin-top:100px;color:#444;text-align:center}
+        .convert-type {margin-top:30px;text-align:center}
+        .convert-type span {position:relative;display:inline-block;margin:0 5px}
+        .convert-type span label {display:block;padding:0 15px;color:#fff;line-height:2.5;background:#aaa;cursor:pointer;opacity:0.5}
+        .convert-type span label:hover {opacity:.8}
+        .convert-type span input[type=radio] {position:absolute;left:0;top:0;opacity:0}
+        .convert-type span input[type=radio]:checked + label {background:#25d567;opacity:1}
         .input-area {margin-top:30px;font-size:0;text-align:center}
         .input-area + p {margin-top:15px;color:#888;text-align:center}
         .input-area * {display:inline-block;vertical-align:top}
         .input-area input[type='text'] {width:40%;padding:0 20px;color:#7d8ca0;font-size:20px;line-height:2.3;border:2px solid #197bff;border-right:0}
-        .btn-convert {overflow:hidden;position:relative;width:50px;height:50px;color:transparent;border:0 none;outline:0 none;background:#197bff}        
+        .btn-convert {overflow:hidden;position:relative;width:50px;height:50px;color:transparent;border:0 none;outline:0 none;background:#197bff}
         .input-area input[type='text']:focus {outline:0 none;border-color:#5505e6}
         .input-area input[type='text']:focus + .btn-convert {background:#5505e6}
         .btn-convert:before,.btn-convert:after {content:'';position:absolute}
         .btn-convert:before {left:9px;top:9px;width:18px;height:18px;border:4px solid #fff;border-radius:50%}
         .btn-convert:after {left:32px;top:28px;width:0;height:14px;border-left:4px solid #fff;transform:rotate(-45deg)}
-        .output-area {width:90%;margin:50px auto 0;padding:15px;color:#637996;line-height:1.7;word-break: break-all;background:#fff;transform:scaleY(0);transition:.4s all cubic-bezier(1, 0.01, 0, 1.01)}
+        .output-area {width:90%;margin:50px auto 0;padding:15px;color:#637996;font-weight:100;font-size:26px;line-height:1.7;word-break: break-all;background:#fff;transform:scaleY(0);transition:.4s all cubic-bezier(1, 0.01, 0, 1.01)}
         .output-area.on {transform:scaleY(1)}
+        .example span {display:none}
+        .example span.on {display:inline}
     </style>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Convert Unicode to Text</h1>
-    <div class="input-area">        
+    <h1>Convert Unicode</h1>
+    <div class="convert-type">
+        <span><input type="radio" id="typeA" name="inputType" value="0" checked /><label for="typeA">Unicode to Text</label></span>
+        <span><input type="radio" id="typeB" name="inputType" value="1" /><label for="typeB">Text to Unicode</label>        </span>
+    </div>
+    <div class="input-area">
         <input type="text" class="code-list" />
         <button type="button" class="btn-convert">변환</button>
     </div>
-    <p>ex) U+AC00 || U+AC00-AC05 || U+AC00, U+AC05-AC0F</p>
+    <p class="example">
+        <span class="on">ex) U+AC00 || U+AC00-AC05 || U+AC00, U+AC05-AC0F</span>
+        <span>ex) ㄱ || 가 || 가나다라마AbcdEF</span>
+    </p>
     <div class="output-area"></div>
 </body>
 <script type="text/javascript">
 //<![CDATA[
-    var result;
-    $(".btn-convert").on("click",function(){
-        result = [];
-        var cd = $(".code-list").val();
-        cd = cd.replace(/[U+.]/g,'').replace(/\s/g,'').toUpperCase().split(',');
-        cd.forEach(function(ele){
-            if(ele.indexOf("-") > 0){
-                getRange(ele)
+    var convert = {
+        checkError : function(){
+            if(this.value == ""){
+                alert('입력값이 없습니다');
+                this.reset();                
+            }else if(this.type=="0" && !this.value.match(/U+/g)){
+                alert('유효하지 않은 값입니다');
+                this.reset();                
             }else{
-                ele = Number("0x"+ele);
-                var str = String.fromCharCode(ele);
-                result.push(str);
+                (!this.type) ? this.makeText() : this.makeUnicode();
             }
-        });
-        $(".output-area").html(result.join("").toString(16)).addClass("on").selectText();
-        //document.execCommand("copy");
-    });
-
-    function getRange(r){
-        var r= r.split("-");
-        var at = Number("0x"+r[0]);
-        var until = Number("0x"+r[1]);
-        for(var i = at;i < until+1; i++){
-            var str = String.fromCharCode(i);
-            result.push(str);
+        },
+        makeText : function(){
+            var _this = this;            
+            var arrayUnicode = _this.value.replace(/[U+.]/g,'').replace(/\s/g,'').toUpperCase().split(',');
+            arrayUnicode.forEach(function(ele){                
+                if(ele.indexOf("-") > 0){
+                    _this.getRange(ele)
+                }else{
+                    ele = Number("0x"+ele);
+                    var str = String.fromCharCode(ele);                    
+                    _this.result.push(str);
+                }
+            });
+            this.result = this.result.join("");
+            this.print();
+        },
+        makeUnicode : function(){
+            var _this = this;
+            var  arrayStr =_this.value.split("");
+            arrayStr.forEach(function(ele){
+                var str = ele.charCodeAt(0).toString(16).toUpperCase();
+                while (str.length < 4) {
+                  str = '0' + str;
+                }
+                _this.result.push("U+"+str);
+            });
+            this.result = this.result.join(", ");
+            this.print()
+        },
+        getRange : function(r){
+            var r= r.split("-");
+            var at = Number("0x"+r[0]);
+            var until = Number("0x"+r[1]);
+            for(var i = at;i < until+1; i++){
+                var str = String.fromCharCode(i);
+                this.result.push(str);
+            }
+        },
+        print : function(){
+            $(".output-area").html(this.result).addClass("on").selectText();
+            //document.execCommand("copy");
+        },
+        reset : function(){
+            $(".output-area").removeClass("on");
+            $(".code-list").val("").focus();
+            $(".example").find("span").removeClass("on").eq(Number($(".convert-type input:checked").val())).addClass("on")
         }
-    }
-    jQuery.fn.selectText = function(){        
+    };
+    $(document.body).on("click",".btn-convert",function(){
+        convert.result = [];
+        convert.type = Number($(".convert-type input:checked").val());
+        convert.value = $(".code-list").val();     
+        convert.checkError();
+    }).on("change",".convert-type input",convert.reset);
+    jQuery.fn.selectText = function(){
         var doc = document;
         var element = this[0];
         if (doc.body.createTextRange) {
@@ -69,7 +122,7 @@
             range.moveToElementText(element);
             range.select();
         } else if (window.getSelection) {
-            var selection = window.getSelection();        
+            var selection = window.getSelection();
             var range = document.createRange();
             range.selectNodeContents(element);
             selection.removeAllRanges();
