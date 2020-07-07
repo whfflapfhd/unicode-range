@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexon-Gothic Web Fonts</title>
+    <link rel="stylesheet" href="../../../lib/jquery-ui-1.11.4/jquery-ui.css">
+    <link rel="stylesheet" href="css/nexon.min.css">
+    <style type="text/css">
+        * {margin:0;padding:0;box-sizing:border-box}
+        body {font-family: 'nexon','궁서',sans-serif;background:#f5f5f5}
+        body > div {width:90%;margin-left:auto;margin-right:auto}
+        .font-setting {overflow:hidden;margin-top:100px}
+        .font-controller {float:left;width:33.33333333333333%;padding:50px;text-align:center}
+        .font-controller label {font-weight:300}
+        .font-controller strong {display:block;margin-bottom:15px;}                
+        .web-fonts {overflow:auto;max-height:70vh;padding:30px;line-height:1.4;letter-spacing:2px;color:#333;border:1px solid #d7d7d7;background:#fff}
+        .ui-slider-handle em {position:absolute;top:30px;font-style:normal;font-weight:700;color:#ff3e67}
+    </style>
+    <script src="../../../lib/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+    <script src="../../../lib/jquery-ui-1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+    <div class="font-setting">
+        <div class="font-controller">
+            <strong>font-size</strong>
+            <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+        </div>
+        <div class="font-controller">
+            <strong>line-height</strong>
+            <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+        </div>
+        <div class="font-controller">
+            <strong>font-weight</strong>
+            <div id="radioset">
+                <input type="radio" id="radio1" name="weight" value="100"><label for="radio1">100</label>
+                <input type="radio" id="radio2" name="weight" value="300" checked="checked"><label for="radio2">300</label>
+                <input type="radio" id="radio3" name="weight" value="700"><label for="radio3">700</label>
+            </div>            
+        </div>
+    </div>
+    <div class="web-fonts">
+        <p>가까나다따라마바빠사싸아자짜차카타파하</p>
+        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+        <p>abcdefghijklmnopqrstuvwxyz</p>
+        <p>0123456789</p>
+        <p>~@#%$^&*</p>
+        <p>.,;:/\!?`'"‘’“”-_()[]{}<>></p>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        $( function() {
+            var  viewFonts = $(".web-fonts");
+            var opt = [
+                {
+                    value : 16, max : 44, min : 11,
+                    slide:function(event,ui){
+                        viewFonts.css("font-size",ui.value + "px");
+                        $(ui.handle).find("em").text(ui.value)
+                    }
+                },
+                {
+                    value : 1.4, max : 3, min : 1, step : 0.1,
+                    slide:function(event,ui){
+                        viewFonts.css("line-height",ui.value);
+                        $(ui.handle).find("em").text(ui.value)
+                    }
+                }
+            ];
+            $(".slider").each(function(i){
+                var handle = $(this).find(".ui-slider-handle em");
+                $(this).slider({
+                    animate: true,
+                    range : "min"
+                });
+                $(this).slider( "option",opt[i]);
+                handle.text($(this).slider("value"));
+            });
+            $( "#radioset" ).buttonset();
+            $("input[name='weight']").on("change",function(){
+                viewFonts.css("font-weight",$(this).val());
+            });
+        } );
+    //]]>
+    </script>
+</body>
+</html>

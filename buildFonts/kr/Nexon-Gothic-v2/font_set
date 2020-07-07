@@ -1,0 +1,8 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SUB=$DIR/Subset
+fontName=$(basename `pwd`)
+if test ! -d $SUB
+	then mkdir -p Subset
+fi
+source ../build_subset
