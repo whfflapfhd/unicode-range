@@ -1,7 +1,6 @@
 #!/bin/bash
 textFile=$(dirname "$DIR")/glyphs.txt
 fontFile="$(cd ../../ && pwd)/fonts"
-
 function makeSubset(){
 	for ext in ttf woff woff2; do
 		for p in $fontFile/$fontName/*.ttf; do			

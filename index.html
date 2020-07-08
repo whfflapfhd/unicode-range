@@ -2,50 +2,28 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>유니코드 문자 변환</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-    <style type="text/css">
-        * {margin:0;padding:0;box-sizing:border-box}
-        body {background:#eaeaea}
-        h1 {margin-top:100px;color:#444;text-align:center}
-        .convert-type {margin-top:30px;text-align:center}
-        .convert-type span {position:relative;display:inline-block;margin:0 5px}
-        .convert-type span label {display:block;padding:0 15px;color:#fff;line-height:2.5;background:#aaa;cursor:pointer;opacity:0.5}
-        .convert-type span label:hover {opacity:.8}
-        .convert-type span input[type=radio] {position:absolute;left:0;top:0;opacity:0}
-        .convert-type span input[type=radio]:checked + label {background:#25d567;opacity:1}
-        .input-area {margin-top:30px;font-size:0;text-align:center}
-        .input-area + p {margin-top:15px;color:#888;text-align:center}
-        .input-area * {display:inline-block;vertical-align:top}
-        .input-area input[type='text'] {width:40%;padding:0 20px;color:#7d8ca0;font-size:20px;line-height:2.3;border:2px solid #197bff;border-right:0}
-        .btn-convert {overflow:hidden;position:relative;width:50px;height:50px;color:transparent;border:0 none;outline:0 none;background:#197bff}
-        .input-area input[type='text']:focus {outline:0 none;border-color:#5505e6}
-        .input-area input[type='text']:focus + .btn-convert {background:#5505e6}
-        .btn-convert:before,.btn-convert:after {content:'';position:absolute}
-        .btn-convert:before {left:9px;top:9px;width:18px;height:18px;border:4px solid #fff;border-radius:50%}
-        .btn-convert:after {left:32px;top:28px;width:0;height:14px;border-left:4px solid #fff;transform:rotate(-45deg)}
-        .output-area {width:90%;margin:50px auto 0;padding:15px;color:#637996;font-weight:100;font-size:26px;line-height:1.7;word-break: break-all;background:#fff;transform:scaleY(0);transition:.4s all cubic-bezier(1, 0.01, 0, 1.01)}
-        .output-area.on {transform:scaleY(1)}
-        .example span {display:none}
-        .example span.on {display:inline}
-    </style>
+    <title>Convert Unicode</title>    
+    <link rel="stylesheet" href="assets/css/nexon.min.css">
+    <link rel="stylesheet" href="assets/css/common.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Convert Unicode</h1>
-    <div class="convert-type">
-        <span><input type="radio" id="typeA" name="inputType" value="0" checked /><label for="typeA">Unicode to Text</label></span>
-        <span><input type="radio" id="typeB" name="inputType" value="1" /><label for="typeB">Text to Unicode</label>        </span>
+    <h1 class="page-title">Convert Unicode</h1>
+    <div class="container">
+        <div class="convert-type">
+            <span class="type-btn"><input type="radio" id="typeA" name="inputType" value="0" checked /><label for="typeA">Unicode to Text</label></span>
+            <span class="type-btn"><input type="radio" id="typeB" name="inputType" value="1" /><label for="typeB">Text to Unicode</label></span>
+        </div>
+        <div class="search-wrap search-unicode">
+            <input type="text" class="codeList" />
+            <button type="button" class="btn-search btnConvert">변환</button>
+        </div>
+        <p class="example">
+            <span class="on">ex) U+AC00 || U+AC00-AC05 || U+AC00, U+AC05-AC0F</span>
+            <span>ex) ㄱ || 가 || 가나다라마AbcdEF</span>
+        </p>
+        <div class="output-area"></div>
     </div>
-    <div class="input-area">
-        <input type="text" class="code-list" />
-        <button type="button" class="btn-convert">변환</button>
-    </div>
-    <p class="example">
-        <span class="on">ex) U+AC00 || U+AC00-AC05 || U+AC00, U+AC05-AC0F</span>
-        <span>ex) ㄱ || 가 || 가나다라마AbcdEF</span>
-    </p>
-    <div class="output-area"></div>
 </body>
 <script type="text/javascript">
 //<![CDATA[
@@ -104,14 +82,14 @@
         },
         reset : function(){
             $(".output-area").removeClass("on");
-            $(".code-list").val("").focus();
+            $(".codeList").val("").focus();
             $(".example").find("span").removeClass("on").eq(Number($(".convert-type input:checked").val())).addClass("on")
         }
     };
-    $(document.body).on("click",".btn-convert",function(){
+    $(document.body).on("click",".btnConvert",function(){
         convert.result = [];
         convert.type = Number($(".convert-type input:checked").val());
-        convert.value = $(".code-list").val();     
+        convert.value = $(".codeList").val();     
         convert.checkError();
     }).on("change",".convert-type input",convert.reset);
     jQuery.fn.selectText = function(){

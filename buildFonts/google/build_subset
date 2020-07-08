@@ -15,29 +15,6 @@ function makeSubset(){
 		fi
 	done
 }
-for i in {0..1};do
+for i in {0..119};do
 	makeSubset $i
 done
-
-
-
-
-#function makeSubset(){
-#	for ext in ttf woff woff2; do
-#		for p in $fontFile/$fontName/*.ttf; do
-#			filename=$(basename "$p")
-#			title="${filename%.*}"
-#			printf "Making \e[1m\e[34m$title.$ext\e[0m..."
-#			output_file=$DIR/Subset/$filename
-#			output_file=${output_file/ttf/$ext}
-#			if [ $ext != ttf ]; then
-#				flavor=$ext
-#			fi
-#			pyftsubset "$p" --flavor=$flavor --output-file="$output_file" --text-file=$textFile --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --drop-tables=
-#			if [ $? ]; then
-#				printf "done!\n"
-#			fi
-#		done
-#	done
-#}
-#makeSubset
