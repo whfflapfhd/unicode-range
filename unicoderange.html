@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Unicode Range</title>
+    <link rel="stylesheet" href="assets/lib/jquery-ui-1.11.4/jquery-ui.css">
+    <link rel="stylesheet" href="assets/css/nexon.min.css">
+    <link rel="stylesheet" href="assets/css/common.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="assets/lib/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>    
+</head>
+<body>
+    <div class="wrapper">
+        <h1 class="page-title">Unicode Range</h1>
+        <nav>
+            <button type="button" class="toggle-nav"><span><i class="ir">Toggle Menu</i></span></button>
+            <div class="nav-wrap">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="index.html">유니코드 변환</a></li>
+                    <li><a href="previewer.html" class="active">폰트 테스트</a></li>
+                    <li><a href="unicoderange.html">유니코드 구간설정</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container unicode-tbl">
+            <div class="btn-wrap range-tab">
+                <button type="button" class="range-type btn active" data-range="ko">Korean</button>
+                <ul>
+                    <li><button type="button" data-index="A">U+A*</button></li>                    
+                    <li><button type="button" data-index="B">U+B*</button></li>
+                    <li><button type="button" data-index="C">U+C*</button></li>
+                    <li><button type="button" data-index="D">U+D*</button></li>
+                </ul>
+                <button type="button" class="range-type btn" data-range="all">All</button>
+                <ul>
+                    <li><button type="button" data-index="0">U+0*</button></li>
+                    <li><button type="button" data-index="1">U+1*</button></li>
+                    <li><button type="button" data-index="2">U+2*</button></li>
+                    <li><button type="button" data-index="3">U+3*</button></li>
+                    <li><button type="button" data-index="4">U+4*</button></li>
+                    <li><button type="button" data-index="5">U+5*</button></li>
+                    <li><button type="button" data-index="6">U+6*</button></li>
+                    <li><button type="button" data-index="7">U+7*</button></li>
+                    <li><button type="button" data-index="8">U+8*</button></li>
+                    <li><button type="button" data-index="9">U+9*</button></li>
+                    <li><button type="button" data-index="A">U+A*</button></li>
+                    <li><button type="button" data-index="B">U+B*</button></li>
+                    <li><button type="button" data-index="C">U+C*</button></li>
+                    <li><button type="button" data-index="D">U+D*</button></li>
+                    <li><button type="button" data-index="E">U+E*</button></li>
+                    <li><button type="button" data-index="F">U+F*</button></li>
+                </ul>
+            </div>
+            <table class="unicode-table">
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -8,71 +8,50 @@
     <link rel="stylesheet" href="assets/css/common.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="assets/lib/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>    
 </head>
 <body>
-    <h1 class="page-title">Webfont Previewer</h1>
-    <div class="container">
-        <div class="font-setting">
-            <div class="font-controller">
-                <strong>font-size</strong>
-                <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+    <div class="wrapper">
+        <h1 class="page-title">Webfont Previewer</h1>
+        <nav>
+            <button type="button" class="toggle-nav"><span><i class="ir">Toggle Menu</i></span></button>
+            <div class="nav-wrap">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="index.html">유니코드 변환</a></li>
+                    <li><a href="previewer.html" class="active">폰트 테스트</a></li>
+                    <li><a href="unicoderange.html">유니코드 구간설정</a></li>
+                </ul>
             </div>
-            <div class="font-controller">
-                <strong>line-height</strong>
-                <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
-            </div>
-            <div class="font-controller">
-                <strong>font-weight</strong>
-                <div id="radioset">
-                    <input type="radio" id="radio1" name="weight" value="100"><label for="radio1">100</label>
-                    <input type="radio" id="radio2" name="weight" value="300" checked="checked"><label for="radio2">300</label>
-                    <input type="radio" id="radio3" name="weight" value="700"><label for="radio3">700</label>
+        </nav>
+        <div class="container">
+            <div class="font-setting">
+                <div class="font-controller">
+                    <strong>font-size</strong>
+                    <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+                </div>
+                <div class="font-controller">
+                    <strong>line-height</strong>
+                    <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+                </div>
+                <div class="font-controller">
+                    <strong>font-weight</strong>
+                    <div id="radioset">
+                        <input type="radio" id="radio1" name="weight" value="100"><label for="radio1">100</label>
+                        <input type="radio" id="radio2" name="weight" value="300" checked="checked"><label for="radio2">300</label>
+                        <input type="radio" id="radio3" name="weight" value="700"><label for="radio3">700</label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="previewer">
-            <p>가까나다따라마바빠사싸아자짜차카타파하</p>
-            <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-            <p>abcdefghijklmnopqrstuvwxyz</p>
-            <p>0123456789</p>
-            <p>~@#%$^&*</p>
-            <p>.,;:/\!?`'"‘’“”-_()[]{}<>></p>
+            <div class="previewer">
+                <p>가까나다따라마바빠사싸아자짜차카타파하</p>
+                <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                <p>abcdefghijklmnopqrstuvwxyz</p>
+                <p>0123456789</p>
+                <p>~@#%$^&*</p>
+                <p>.,;:/\!?`'"‘’“”-_()[]{}<>></p>
+            </div>
         </div>
     </div>
-    <script type="text/javascript">
-    //<![CDATA[
-        $( function() {
-            var  viewFonts = $(".previewer");
-            var unit = ["px",""];
-            var opt = [
-                {
-                    animate: true, range : "min",
-                    value : 16, max : 44, min : 11,
-                    slide:function(event,ui){
-                        viewFonts.css("font-size",ui.value + "px");
-                        $(ui.handle).find("em").text(ui.value + unit[0])
-                    }
-                },
-                {
-                    animate: true, range : "min",
-                    value : 1.4, max : 3, min : 1, step : 0.1,
-                    slide:function(event,ui){
-                        viewFonts.css("line-height",ui.value);
-                        $(ui.handle).find("em").text(ui.value)
-                    }
-                }
-            ];
-            $(".slider").each(function(i){
-                var handle = $(this).find(".ui-slider-handle em");                
-                $(this).slider(opt[i]);
-                handle.text($(this).slider("value") + unit[i]);
-            });
-            $( "#radioset" ).buttonset();
-            $("input[name='weight']").on("change",function(){
-                viewFonts.css("font-weight",$(this).val());
-            });
-        } );
-    //]]>
-    </script>
 </body>
 </html>
