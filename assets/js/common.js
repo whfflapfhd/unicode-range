@@ -43,7 +43,7 @@
             patten = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"],
             html = "",
             tdNode = "",
-            btn = "<button type='button' class='single-select'>+</button><button type='button' class='multi-select'>~</button>",
+            btn = "<div class='unicode-select'><button type='button' class='single-select'>+</button><button type='button' class='multi-select'>~</button></div>",
             range = false;
             tbl.empty();
             for(var b=0; b<patten.length; b++){
@@ -56,10 +56,13 @@
                                 if(code === "AC00") range = true;
                                 if(!range) continue;
                             }else if(idx==="D"){
-                                if(Number("0x"+code) > 0xD7AF) codeTxt = "　"
+                                if(Number("0x"+code) > 0xD7AF){
+                                    codeTxt = "　";
+                                    btn = "";
+                                }
                             }
                         };
-                        tdNode += "<td><p>" + code + "</p>" + codeTxt + "</td>";
+                        tdNode += "<td><div><p>" + code + "</p>" + btn + codeTxt + "</div></td>";
                         if(d == patten.length -1){
                             html += "<tr>"+tdNode+"</tr>";
                             tdNode = "";
@@ -145,7 +148,7 @@
             unicode.type = Number($(".convert-type input:checked").val());
             unicode.value = $(".codeList").val();
             unicode.checkError();
-        }).on("click",".range-type",function(){
+        }).on("change",".convert-type input",unicode.reset).on("click",".range-type",function(){
             $(this).siblings(".range-type").removeClass("active").end().addClass("active");
             codeType = $(this).data("range");
         }).on("click",".range-tab ul button",function(){
