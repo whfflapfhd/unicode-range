@@ -71,6 +71,11 @@
                 };
             };
             tbl.append(html);
+            this.unicodeTdArray.all = tbl.find("td");
+        },
+        unicodeTdArray : {
+            all : null,
+            range : null
         },
         getUnicode : function(c){
             var c = Number("0x"+c);
@@ -143,6 +148,11 @@
         $( "#radioset" ).buttonset();
         /*폰트 테스트 페이지 end*/
 
+        /* Unicode Range 페이지*/
+        var selectedSection = [];
+        resultRange = [];
+        /* Unicode Range 페이지 end*/
+
         $(document.body).on("click",".btnConvert",function(){
             unicode.result = [];
             unicode.type = Number($(".convert-type input:checked").val());
@@ -158,7 +168,63 @@
             unicode.makeUnicodeTable(codeType,rangeIndex);
         }).on("change","input[name='weight']",function(){
             viewFonts.css("font-weight",$(this).val());
-        }).on("click",".toggle-nav",function(){$(this).toggleClass("active")});
+        }).on("click",".toggle-nav",function(){$(this).toggleClass("active")})
+        .on("click",".unicode-select button",function(){
+            var myParents= $(this).closest("td");
+            var myClass = $(this).attr("class");
+            if(myClass.indexOf("single-select") < 0 ){ // 다중 선택
+                if(myParents.hasClass("selectedRange")){
+                    var delCode = myParents.data("code");
+                    printRange(delRange(delCode));                    
+                    $("[data-code='"+delCode+"']").removeClass("selectedRange").removeAttr("data-code").find(".multi-select").removeClass("selected-del").text("~");;
+                }else{
+                    var idx = unicode.unicodeTdArray.all.index(myParents);
+                    selectedSection.push(idx);
+                    myParents.addClass("selected");
+                    if(selectedSection.length > 1){
+                        unicode.unicodeTdArray.range = unicode.unicodeTdArray.all.slice(selectedSection[0],selectedSection[1]+1);
+                        printRange(addRange(unicode.unicodeTdArray.range.first().find("p").text().toLowerCase(),unicode.unicodeTdArray.range.last().find("p").text().toLowerCase()));
+                        $.each(unicode.unicodeTdArray.range,function(a){
+                            unicode.unicodeTdArray.range.eq(a).find(".multi-select").addClass("selected-del").text("x");
+                            unicode.unicodeTdArray.range.eq(a).removeClass("selected").addClass("selectedRange").attr("data-code",resultRange[resultRange.length-1]);
+                        });
+                        selectedSection = [];
+                        $(".unicode-table").find("td").removeClass("disabled");                    
+                    }else{                    
+                        for(var disabledTd = 0; disabledTd < idx; disabledTd++){                        
+                            unicode.unicodeTdArray.all.eq(disabledTd).addClass("disabled");
+                        }
+                    }
+                };                
+            }else{ // 단일 선택
+                if(myParents.hasClass("selected")){
+                    printRange(delRange(myParents.find("p").text().toLowerCase()));
+                    $(this).removeClass("selected-del").text("+");
+                    myParents.removeClass("selected");
+                }else{
+                    printRange(addRange(myParents.find("p").text().toLowerCase()));
+                    $(this).addClass("selected-del").text("x");
+                    myParents.addClass("selected");
+                }                
+            };
+            function printRange(fn){
+                console.log(fn)
+            };
+            function addRange(t1,t2){
+                var c = "U+"+t1;
+                if(t2) c += "-"+t2;
+                resultRange.push(c);
+                return resultRange.join(",");
+            };
+            function delRange(t1){
+                var c = (t1.indexOf("U") < 0 ) ? "U+"+t1 : t1;
+                resultRange = resultRange.filter(function(item, pos, self) {
+                    return item != c;
+                 });
+                 return resultRange.join(",");
+            };
+        });
+
     });
 })(jQuery);
 

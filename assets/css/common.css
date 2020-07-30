@@ -82,8 +82,10 @@ ul,ol {list-style:none}
     -ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none;
 }
 .unicode-table td {vertical-align:top;text-align:center;border:1px solid #ccc}
+.unicode-table td.selected,.unicode-table td.selectedRange {color:#fff;background:#197bff}
+.unicode-table td.disabled {opacity:.3}
 .unicode-table td > div {position:relative;padding-bottom:10px}
-.unicode-table td p {margin-bottom:10px;padding:5px 0;border-bottom:1px solid #ccc;background:#e0e0e0}
+.unicode-table td p {margin-bottom:10px;padding:5px 0;color:#444;border-bottom:1px solid #ccc;background:#e0e0e0}
 .range-tab {position:relative;padding-bottom:50px}
 .range-tab > ul {display:none;position:absolute;bottom:0;left:0;width:100%}
 .range-tab > ul li {display:inline-block}
@@ -91,8 +93,10 @@ ul,ol {list-style:none}
 .range-tab > ul li button:hover,.range-tab > ul li button.active {color:#fff;background:#24c7b4}
 .range-tab .active + ul {display:block}
 .unicode-table td > div:hover:after {content:'';position:absolute;left:0;top:0;z-index:1;width:100%;height:100%;background:rgba(0,0,0,.7)}
-.unicode-table td > div:hover .unicode-select {display:block}
+.unicode-table td:not(.disabled) > div:hover .unicode-select {display:block}
 .unicode-select {display:none;position:absolute;top:50%;margin-top:-18px;z-index:2;width:100%;text-align:center}
 .single-select,.multi-select {display:inline-block;width:35px;margin:0 2px;font-size:14px;line-height:2.5;border-radius:2px;}
 .single-select {background:#efefef}
 .multi-select {background:#24c7b4}
+.selected-del {color:#fff;background:#f8386d}
+.selectedRange .single-select {display:none}
