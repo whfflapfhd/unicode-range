@@ -116,6 +116,13 @@
             selection.addRange(range);
         }
     };
+     jQuery.fn.fixedScrollTop = function(){
+         var obj = $(this),
+               objOffset = obj.offset().top;
+         $(window).on("scroll",function(){
+            ($(this).scrollTop() >= objOffset) ? obj.addClass("fixedScrollTop") : obj.removeClass("fixedScrollTop");
+         });
+     };
 
     $(function(){
         /*폰트 테스트 페이지*/
@@ -166,6 +173,10 @@
             $(this).addClass("active");
             var rangeIndex = $(this).data("index");
             unicode.makeUnicodeTable(codeType,rangeIndex);
+
+            resultRange = [];
+            $(".unicode-range-result").text("").hide();
+            $(window).scrollTop(0);
         }).on("change","input[name='weight']",function(){
             viewFonts.css("font-weight",$(this).val());
         }).on("click",".toggle-nav",function(){$(this).toggleClass("active")})
@@ -207,8 +218,9 @@
                     myParents.addClass("selected");
                 }                
             };
-            function printRange(fn){
-                console.log(fn)
+            function printRange(fn){                
+                (!fn) ? $(".unicode-range-result").hide() : $(".unicode-range-result").show();
+                $(".unicode-range-result").text(fn).selectText();                
             };
             function addRange(t1,t2){
                 var c = "U+"+t1;
@@ -224,6 +236,8 @@
                  return resultRange.join(",");
             };
         });
+
+        if($(".range-tab").length) $(".range-tab").fixedScrollTop();
 
     });
 })(jQuery);
