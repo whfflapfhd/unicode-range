@@ -132,9 +132,9 @@
             {
                 animate: true, range : "min",
                 value : 16, max : 44, min : 11,
-                slide:function(event,ui){
+                slide:function(event,ui){                    
                     viewFonts.css("font-size",ui.value + "px");
-                    $(ui.handle).find("em").text(ui.value + unit[0])
+                    $(ui.handle).parent().prev().find("span").text(ui.value + unit[0])
                 }
             },
             {
@@ -142,13 +142,13 @@
                 value : 1.4, max : 3, min : 1, step : 0.1,
                 slide:function(event,ui){
                     viewFonts.css("line-height",ui.value);
-                    $(ui.handle).find("em").text(ui.value)
+                    $(ui.handle).parent().prev().find("span").text(ui.value)
                 }
             }
         ];
         var codeType = "ko";
         $(".slider").each(function(i){
-            var handle = $(this).find(".ui-slider-handle em");
+            var handle = $(this).prev().find("span");
             $(this).slider(opt[i]);
             handle.text($(this).slider("value") + unit[i]);
         });
@@ -184,7 +184,7 @@
             var myParents= $(this).closest("td");
             var myClass = $(this).attr("class");
             if(myClass.indexOf("single-select") < 0 ){ // 다중 선택
-                if(myParents.hasClass("selectedRange")){
+                if(myParents.hasClass("selectedRange")){ // 다중 선택 취소 시
                     var delCode = myParents.data("code");
                     printRange(delRange(delCode));                    
                     $("[data-code='"+delCode+"']").removeClass("selectedRange").removeAttr("data-code").find(".multi-select").removeClass("selected-del").text("~");;
@@ -194,11 +194,18 @@
                     myParents.addClass("selected");
                     if(selectedSection.length > 1){
                         unicode.unicodeTdArray.range = unicode.unicodeTdArray.all.slice(selectedSection[0],selectedSection[1]+1);
-                        printRange(addRange(unicode.unicodeTdArray.range.first().find("p").text().toLowerCase(),unicode.unicodeTdArray.range.last().find("p").text().toLowerCase()));
-                        $.each(unicode.unicodeTdArray.range,function(a){
+                        var rangeAt = unicode.unicodeTdArray.range.first().find("p").text().toLowerCase(),
+                              rangeUntil = unicode.unicodeTdArray.range.last().find("p").text().toLowerCase(),
+                              rangeData = addRange(rangeAt,rangeUntil);
+                        $.each(unicode.unicodeTdArray.range,function(a,b){
+                            if($(b).hasClass('single')){
+                                rangeData = delRange($(b).find("p").text().toLowerCase());
+                                $(b).find(".single-select").removeClass("selected-del").text("+").siblings(".multi-select").show();
+                            }
                             unicode.unicodeTdArray.range.eq(a).find(".multi-select").addClass("selected-del").text("x");
-                            unicode.unicodeTdArray.range.eq(a).removeClass("selected").addClass("selectedRange").attr("data-code",resultRange[resultRange.length-1]);
+                            unicode.unicodeTdArray.range.eq(a).removeClass("selected single").addClass("selectedRange").attr("data-code",resultRange[resultRange.length-1]);
                         });
+                        printRange(rangeData);
                         selectedSection = [];
                         $(".unicode-table").find("td").removeClass("disabled");                    
                     }else{                    
@@ -210,12 +217,12 @@
             }else{ // 단일 선택
                 if(myParents.hasClass("selected")){
                     printRange(delRange(myParents.find("p").text().toLowerCase()));
-                    $(this).removeClass("selected-del").text("+");
-                    myParents.removeClass("selected");
+                    $(this).removeClass("selected-del").text("+").siblings(".multi-select").show();
+                    myParents.removeClass("selected single");
                 }else{
                     printRange(addRange(myParents.find("p").text().toLowerCase()));
-                    $(this).addClass("selected-del").text("x");
-                    myParents.addClass("selected");
+                    $(this).addClass("selected-del").text("x").siblings(".multi-select").hide();
+                    myParents.addClass("selected single");
                 }                
             };
             function printRange(fn){                
@@ -228,7 +235,7 @@
                 resultRange.push(c);
                 return resultRange.join(",");
             };
-            function delRange(t1){
+            function delRange(t1){                
                 var c = (t1.indexOf("U") < 0 ) ? "U+"+t1 : t1;
                 resultRange = resultRange.filter(function(item, pos, self) {
                     return item != c;

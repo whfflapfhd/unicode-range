@@ -7,7 +7,8 @@ a {color:#333;text-decoration:none}
 button {border:0 none;background:transparent;cursor:pointer}
 button:hover,button:focus {outline:0 none}
 ul,ol {list-style:none}
-.output-area,.unicode-table,.unicode-range-result {font-family:"돋움",Dotum,sans-serif}
+select {min-width:50%;height:34px;padding:2px;border:1px solid #0091ff;border-radius:3px}
+.output-area,.unicode-table,.unicode-range-result {font-family:"맑은고딕",Malgun Gothic,"돋움",Dotum,sans-serif}
 /* layout */
 .wrapper {overflow:auto;min-height:100%;background:#eaeaea}
 .btn-wrap {padding:30px 0;text-align:center}
@@ -39,6 +40,7 @@ ul,ol {list-style:none}
 
 /* Box */
 .container {width:90%;margin-left:auto;margin-right:auto}
+.row {overflow:hidden;margin-left:-15px;margin-right:-15px}
 
 /* Module */
 .search-wrap {font-size:0;text-align:center}
@@ -72,12 +74,15 @@ ul,ol {list-style:none}
 .example span.on {display:inline}
 
 /* Webfont Previewer */
-.font-setting {overflow:hidden;margin-top:50px}
-.font-controller {float:left;width:33.33333333333333%;padding:25px;text-align:center}
+.font-test-wrap {margin-top:30px}
+.font-setting,.previewer-wrap {float:left;padding:0 15px}
+.font-setting {width:35%}
+.previewer-wrap {width:65%}
+.previewer {overflow:auto;max-height:60vh;padding:30px;line-height:1.4;letter-spacing:2px;font-weight:300;color:#333;border:1px solid #d7d7d7;background:#fff}
+.font-controller {padding:25px 30px 25px 0}
 .font-controller label {font-weight:300}
 .font-controller strong {display:block;margin-bottom:15px;font-size:22px;color:#666}
-.previewer {overflow:auto;max-height:60vh;padding:30px;line-height:1.4;letter-spacing:2px;color:#333;border:1px solid #d7d7d7;background:#fff}
-.ui-slider-handle em {position:absolute;top:30px;font-style:normal;font-weight:300;color:#359eff}
+.font-controller strong span {float:right;font-weight:300;color:#ef39a3}
 
 /* Unicode Range */
 .unicode-tbl {padding-bottom:150px}
@@ -99,14 +104,14 @@ ul,ol {list-style:none}
 .unicode-table td > div:hover:after {content:'';position:absolute;left:0;top:0;z-index:1;width:100%;height:100%;background:rgba(0,0,0,.7)}
 .unicode-table td:not(.disabled) > div:hover .unicode-select {display:block}
 .unicode-select {display:none;position:absolute;top:50%;margin-top:-18px;z-index:2;width:100%;text-align:center}
-.single-select,.multi-select,.range-legend strong {display:inline-block;width:35px;margin:0 2px;font-size:14px;line-height:2.5;border-radius:2px;}
+.single-select,.multi-select,.range-legend span {display:inline-block;width:35px;margin:0 2px;font-size:14px;line-height:2.5;border-radius:2px;}
 .single-select {background:#efefef}
 .multi-select {background:#24c7b4}
 .selected-del {color:#fff;background:#f8386d}
 .selectedRange .single-select {display:none}
 .range-legend {position:absolute;bottom:10px;width:100%;text-align:right;font-size:13px}
 .fixedScrollTop .range-legend {width:90%;left:0;right:0;margin:auto}
-.range-legend strong {display:inline-block;margin-left:15px;text-align:center}
-.range-legend strong:nth-child(1) {background-color:#cacaca}
-.range-legend strong:nth-child(2) {background-color:#24c7b4}
+.range-legend span {display:inline-block;width:18px;margin-left:15px;text-align:center;line-height:1.3}
+.range-legend span:nth-child(1) {background-color:#cacaca}
+.range-legend span:nth-child(2) {background-color:#24c7b4}
 .unicode-range-result {position:fixed;left:0;bottom:0;width:100%;padding:10px;text-align:center;line-height:3;font-size:18px;background:#fff;box-shadow:0 0 5px rgba(0,0,0,.5)}

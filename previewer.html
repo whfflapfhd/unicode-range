@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Webfont Previewer</title>
     <link rel="stylesheet" href="assets/lib/jquery-ui-1.11.4/jquery-ui.css">
-    <link rel="stylesheet" href="assets/css/nexon.min.css">
+    <link rel="stylesheet" href="assets/css/nexon.sub.min.css">
     <link rel="stylesheet" href="assets/css/common.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="assets/lib/jquery-ui-1.11.4/jquery-ui.js"></script>
@@ -25,33 +25,64 @@
             </div>
         </nav>
         <div class="container">
-            <div class="font-setting">
-                <div class="font-controller">
-                    <strong>font-size</strong>
-                    <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
+            <div class="font-test-wrap row">
+                <div class="font-setting">
+                    <div class="font-controller">
+                        <strong>font-family</strong>
+                        <select class="ui-font-family">
+                            <option value="nexon" data-weight="100,300,700" selected="selected">넥슨고딕</option>
+                            <option value="nexon-v2" data-weight="100,300,500,700">넥슨고딕2</option>
+                        </select>
+                    </div>
+                    <div class="font-controller">
+                        <strong>font-weight</strong>
+                        <div id="radioset">
+                            <input type="radio" id="radio1" name="weight" value="100"><label for="radio1">100</label>
+                            <input type="radio" id="radio2" name="weight" value="300" checked="checked"><label for="radio2">300</label>
+                            <input type="radio" id="radio3" name="weight" value="700"><label for="radio3">700</label>
+                        </div>
+                    </div>
+                    <div class="font-controller">
+                        <strong>font-size <span></span></strong>
+                        <div class="slider"><div class="ui-slider-handle"></div></div>
+                    </div>
+                    <div class="font-controller">
+                        <strong>line-height <span></span></strong>
+                        <div class="slider"><div class="ui-slider-handle"></div></div>
+                    </div>                    
                 </div>
-                <div class="font-controller">
-                    <strong>line-height</strong>
-                    <div class="slider"><div class="ui-slider-handle"><em></em></div></div>
-                </div>
-                <div class="font-controller">
-                    <strong>font-weight</strong>
-                    <div id="radioset">
-                        <input type="radio" id="radio1" name="weight" value="100"><label for="radio1">100</label>
-                        <input type="radio" id="radio2" name="weight" value="300" checked="checked"><label for="radio2">300</label>
-                        <input type="radio" id="radio3" name="weight" value="700"><label for="radio3">700</label>
+                <div class="previewer-wrap">
+                    <div class="previewer">
+                        <p>가까나다따라마바빠사싸아자짜차카타파하</p>
+                        <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                        <p>abcdefghijklmnopqrstuvwxyz</p>
+                        <p>0123456789</p>
+                        <p>~@#%$^&*</p>
+                        <p>.,;:/\!?`'"‘’“”-_()[]{}<>></p>
                     </div>
                 </div>
             </div>
-            <div class="previewer">
-                <p>가까나다따라마바빠사싸아자짜차카타파하</p>
-                <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-                <p>abcdefghijklmnopqrstuvwxyz</p>
-                <p>0123456789</p>
-                <p>~@#%$^&*</p>
-                <p>.,;:/\!?`'"‘’“”-_()[]{}<>></p>
-            </div>
         </div>
     </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        $(".ui-font-family").on("change",importCss);
+        function importCss(){
+            var
+            btns = $("#radioset"),
+            opt = $(this).find("option:selected"),
+            val = opt.val(),
+            fontWeight = opt.data("weight").split(","),
+            tag = '<link rel="stylesheet" href="assets/css/'+val+'.sub.css">',
+            radios = '';
+            $.each(fontWeight,function(a,b){
+                radios += '<input type="radio" id="radio'+(a+1)+'" name="weight" value="'+b+'"><label for="radio'+(a+1)+'">'+b+'</label>';
+            });
+            btns.empty().append(radios).buttonset();
+            $("head").append(tag);
+            $(".previewer").css("font-family",val);
+        }
+    //]]>
+    </script>
 </body>
 </html>
