@@ -1,0 +1,50 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fontType=$1
+fontName=$2
+SUB=$DIR/$fontType/$fontName
+textFile=$DIR/glyphs/$fontType/glyphs.txt
+fontFile="$DIR/fonts/$fontName"
+if test ! -d $SUB
+	then mkdir -p $DIR/$fontType/$fontName/Subset
+fi
+function makeSubset(){
+	if [ $fontType != kr ]; then
+		local val=$1
+		mkdir -p $SUB/Subset/sub${val}
+	fi
+	for ext in ttf woff woff2; do
+		for p in $fontFile/*.ttf; do
+			filename=$(basename "$p")
+			title="${filename%.*}"
+			printf "Making \e[1m\e[34m$title.$ext\e[0m..."
+			output_file=$DIR/$fontType/$fontName/Subset/$title.$ext
+			if [ $ext != ttf ]; then
+				flavor=$ext
+			fi			
+			if [ $fontType != kr ]; then
+				textFile=$DIR/glyphs/$fontType/glyphs${val}.txt
+				output_file=$DIR/$fontType/$fontName/Subset/sub${val}/$title.$ext
+			fi			
+			pyftsubset "$p" --flavor=$flavor --with-zopfli --output-file="$output_file" --text-file=$textFile --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --passthrough-tables --drop-tables=
+			if [ $? ]; then
+				printf "\e[31m done!\n"
+			fi
+		done
+	done
+}
+
+#
+# bash 파일 실행 시 매개변수
+#  $1 : kr || google
+# $2 : 폰트이름
+#
+
+if [ $fontType != kr ]; then
+	for i in {0..119};do
+		makeSubset $i
+	done
+else
+	makeSubset
+fi
+
