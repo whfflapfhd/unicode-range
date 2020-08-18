@@ -1,0 +1,13 @@
+@font-face {
+    font-family: GmarketSans;
+    font-weight: 700;
+    src: url(Subset/GmarketSansTTFBold.woff2) format('woff2'),url(Subset/GmarketSansTTFBold.woff) format('woff'),url(Subset/GmarketSansTTFBold.ttf) format('truetype')
+}@font-face {
+    font-family: GmarketSans;
+    font-weight: 100;
+    src: url(Subset/GmarketSansTTFLight.woff2) format('woff2'),url(Subset/GmarketSansTTFLight.woff) format('woff'),url(Subset/GmarketSansTTFLight.ttf) format('truetype')
+}@font-face {
+    font-family: GmarketSans;
+    font-weight: 300;
+    src: url(Subset/GmarketSansTTFMedium.woff2) format('woff2'),url(Subset/GmarketSansTTFMedium.woff) format('woff'),url(Subset/GmarketSansTTFMedium.ttf) format('truetype')
+}

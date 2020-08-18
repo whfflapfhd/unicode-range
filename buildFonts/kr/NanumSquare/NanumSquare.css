@@ -1,0 +1,17 @@
+@font-face {
+    font-family: NanumSquare;
+    font-weight: 700;
+    src: url(Subset/NanumSquareB.woff2) format('woff2'),url(Subset/NanumSquareB.woff) format('woff'),url(Subset/NanumSquareB.ttf) format('truetype')
+}@font-face {
+    font-family: NanumSquare;
+    font-weight: 800;
+    src: url(Subset/NanumSquareEB.woff2) format('woff2'),url(Subset/NanumSquareEB.woff) format('woff'),url(Subset/NanumSquareEB.ttf) format('truetype')
+}@font-face {
+    font-family: NanumSquare;
+    font-weight: 100;
+    src: url(Subset/NanumSquareL.woff2) format('woff2'),url(Subset/NanumSquareL.woff) format('woff'),url(Subset/NanumSquareL.ttf) format('truetype')
+}@font-face {
+    font-family: NanumSquare;
+    font-weight: 300;
+    src: url(Subset/NanumSquareR.woff2) format('woff2'),url(Subset/NanumSquareR.woff) format('woff'),url(Subset/NanumSquareR.ttf) format('truetype')
+}

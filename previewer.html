@@ -30,8 +30,12 @@
                     <div class="font-controller">
                         <strong>font-family</strong>
                         <select class="ui-font-family">
-                            <option value="nexon" data-weight="100,300,700" selected="selected">넥슨고딕</option>
-                            <option value="nexon-v2" data-weight="100,300,500,700">넥슨고딕2</option>
+                            <option value="Nexon-Gothic" data-weight="100,300,700" selected="selected">넥슨고딕</option>
+                            <option value="Nexon-Gothic-v2" data-weight="100,300,500,700">넥슨고딕2</option>
+                            <option value="GmarketSans" data-weight="100,300,700">G마켓 폰트</option>
+                            <option value="NIXGONFONTS" data-weight="100,300,700">닉스곤</option>
+                            <option value="NanumSquare" data-weight="100,300,700,800">나눔스퀘어</option>
+                            <option value="NanumSquareAc" data-weight="100,300,700,800">나눔스퀘어 Ac</option>
                         </select>
                     </div>
                     <div class="font-controller">
@@ -73,7 +77,7 @@
             opt = $(this).find("option:selected"),
             val = opt.val(),
             fontWeight = opt.data("weight").split(","),
-            tag = '<link rel="stylesheet" href="assets/css/'+val+'.sub.css">',
+            tag = '<link rel="stylesheet" href="buildFonts/kr/'+val+'/'+val+'.css">',
             radios = '';
             $.each(fontWeight,function(a,b){
                 radios += '<input type="radio" id="radio'+(a+1)+'" name="weight" value="'+b+'"><label for="radio'+(a+1)+'">'+b+'</label>';

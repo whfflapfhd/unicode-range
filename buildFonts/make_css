@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# kr 타입만 생성 됩니다.
+# argument [font-weight1 font-weight2.... font-name]
+# ex) bash 100 300 700 Nexon-Gothic
+
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fontArg=("$@")
+fontLength=${#fontArg[@]}
+fontFile="$DIR/fonts/${fontArg[$fontLength-1]}"
+fontList=()
+fileName=${fontArg[$fontLength-1]}
+
+for font in $fontFile/*.ttf; do	
+	fontname=$(basename "$font")
+	fontname=${fontname%.*}
+	fontList=(${fontList[@]} $fontname)	
+done
+htmlNode=''
+for((i=0;i<fontLength-1;i++)); do
+htmlNode+="@font-face {
+    font-family: $fileName;
+    font-weight: ${fontArg[$i]};
+    src: url(Subset/${fontList[$i]}.woff2) format('woff2'),url(Subset/${fontList[$i]}.woff) format('woff'),url(Subset/${fontList[$i]}.ttf) format('truetype')
+}"
+done
+cat <<make_css > $DIR/kr/$fileName/$fileName.css
+$htmlNode
+make_css

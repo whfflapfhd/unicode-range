@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Nexon-Gothic-v2;
+    font-weight: 700;
+    src: url(Subset/Nexon-Gothic-v2-Bold.woff2) format('woff2'),url(Subset/Nexon-Gothic-v2-Bold.woff) format('woff'),url(Subset/Nexon-Gothic-v2-Bold.ttf) format('truetype')
+}@font-face {
+    font-family: Nexon-Gothic-v2;
+    font-weight: 100;
+    src: url(Subset/Nexon-Gothic-v2-Light.woff2) format('woff2'),url(Subset/Nexon-Gothic-v2-Light.woff) format('woff'),url(Subset/Nexon-Gothic-v2-Light.ttf) format('truetype')
+}@font-face {
+    font-family: Nexon-Gothic-v2;
+    font-weight: 400;
+    src: url(Subset/Nexon-Gothic-v2-Medium.woff2) format('woff2'),url(Subset/Nexon-Gothic-v2-Medium.woff) format('woff'),url(Subset/Nexon-Gothic-v2-Medium.ttf) format('truetype')
+}@font-face {
+    font-family: Nexon-Gothic-v2;
+    font-weight: 300;
+    src: url(Subset/Nexon-Gothic-v2-Regular.woff2) format('woff2'),url(Subset/Nexon-Gothic-v2-Regular.woff) format('woff'),url(Subset/Nexon-Gothic-v2-Regular.ttf) format('truetype')
+}
