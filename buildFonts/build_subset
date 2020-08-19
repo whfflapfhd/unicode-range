@@ -2,18 +2,19 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 subsetType=$1
 fontName=$2
+unicodeType=$3
 fontType=('ttf' 'woff' 'woff2')
 fontList=()
 fontFile="$DIR/fonts/$fontName"
 textFile=$DIR/glyphs/$subsetType/glyphs.txt
-SUB=$DIR/$subsetType/$fontName
-for font in $fontFile/*.ttf; do	
+SUB=$DIR/output/$subsetType/$fontName
+for font in $fontFile/*.ttf; do
 	fontList=(${fontList[@]} "$font")
 done
 
 
 if test ! -d $SUB
-	then mkdir -p $DIR/$subsetType/$fontName/Subset
+	then mkdir -p $DIR/output/$subsetType/$fontName/Subset
 fi
 function makeSubset(){
 	if [ $subsetType != kr ]; then
@@ -21,19 +22,26 @@ function makeSubset(){
 		mkdir -p $SUB/Subset/sub${val}
 	fi
 	for ext in ${fontType[*]}; do
-		for p in ${fontList[*]}; do			
-			filename=$(basename "$p")			
+		for p in ${fontList[*]}; do
+			filename=$(basename "$p")
 			title="${filename%.*}"
 			printf "Making \e[1m\e[34m$title.$ext\e[0m..."
-			output_file=$DIR/$subsetType/$fontName/Subset/$title.$ext
+			output_file=$DIR/output/$subsetType/$fontName/Subset/$title.$ext
 			if [ $ext != ttf ]; then
 				flavor=$ext
-			fi			
+			fi
 			if [ $subsetType != kr ]; then
 				textFile=$DIR/glyphs/$subsetType/glyphs${val}.txt
-				output_file=$DIR/$subsetType/$fontName/Subset/sub${val}/$title.$ext
-			fi			
-			pyftsubset "$p" --flavor=$flavor --with-zopfli --output-file="$output_file" --text-file=$textFile --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --passthrough-tables --drop-tables=
+				output_file=$DIR/output/$subsetType/$fontName/Subset/sub${val}/$title.$ext
+				if [ ${#unicodeType} != 0 ]; then
+					runSubset $unicodeType
+				else
+					runSubset
+				fi
+			else
+				runSubset
+			fi
+
 			if [ $? ]; then
 				printf "\e[31m done!\n"
 			fi
@@ -41,13 +49,26 @@ function makeSubset(){
 	done
 }
 
+function runSubset(){	
+	 if [ $# != 0 ]; then
+		unicodeFile=$DIR/unicode/$1/unicode${val}.txt
+		pyftsubset "$p" --flavor=$flavor --with-zopfli --output-file="$output_file" --unicodes-file=$unicodeFile --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --passthrough-tables --drop-tables=
+	else
+		pyftsubset "$p" --flavor=$flavor --with-zopfli --output-file="$output_file" --text-file=$textFile --layout-features='*'   --glyph-names --symbol-cmap --legacy-cmap --notdef-glyph --notdef-outline   --recommended-glyphs --name-IDs='*' --name-legacy --name-languages='*' --passthrough-tables --drop-tables=
+	 fi
+}
+
 #
 # bash 파일 실행 시 매개변수
 #  $1 : kr || google
 # $2 : 폰트이름
+# $3 : unicode type  full - (나눔고딕 기준 119개) || kr - (노토 KR 기준 92개) 옵션. 아무것도 쓰지 않으면 텍스트파일 기준으로 만듬
 #
 if [ $subsetType != kr ]; then
 	for i in {0..119};do
+		if [[ $unicodeType == kr && $i > 91 ]]; then
+			break
+		fi
 		makeSubset $i
 	done
 else

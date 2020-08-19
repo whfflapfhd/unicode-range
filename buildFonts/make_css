@@ -25,6 +25,6 @@ htmlNode+="@font-face {
     src: url(Subset/${fontList[$i]}.woff2) format('woff2'),url(Subset/${fontList[$i]}.woff) format('woff'),url(Subset/${fontList[$i]}.ttf) format('truetype')
 }"
 done
-cat <<make_css > $DIR/kr/$fileName/$fileName.css
+cat <<make_css > $DIR/output/kr/$fileName/$fileName.css
 $htmlNode
 make_css

@@ -1,0 +1,10 @@
+#!/bin/bash
+# $1= filename.txt
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+mapfile -t myArray < $1
+fontLength=${#myArray[@]}
+for((i=0;i<fontLength;i++)); do
+cat <<make_file > $DIR/unicode/unicode$i.txt
+${myArray[$i]}
+make_file
+done
