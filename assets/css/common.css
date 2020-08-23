@@ -78,7 +78,8 @@ select {min-width:50%;height:34px;padding:2px;border:1px solid #0091ff;border-ra
 .font-setting,.previewer-wrap {float:left;padding:0 15px}
 .font-setting {width:35%}
 .previewer-wrap {width:65%}
-.previewer {overflow:auto;max-height:60vh;padding:30px;line-height:1.4;letter-spacing:2px;font-weight:300;color:#333;border:1px solid #d7d7d7;background:#fff}
+.previewer,.edit-previewer {overflow:auto;max-height:60vh;padding:30px;line-height:1.4;letter-spacing:2px;font-weight:300;color:#333;border:1px solid #d7d7d7;background:#fff}
+.edit-previewer {width:100%;height:40vh;font-size:1rem;font-family:inherit;resize:none}
 .font-controller {padding:25px 30px 25px 0}
 .font-controller label {font-weight:300}
 .font-controller strong {display:block;margin-bottom:15px;font-size:22px;color:#666}

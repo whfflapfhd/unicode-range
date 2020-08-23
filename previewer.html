@@ -36,6 +36,7 @@
                             <option value="NIXGONFONTS" data-weight="100,300,700">닉스곤</option>
                             <option value="NanumSquare" data-weight="100,300,700,800">나눔스퀘어</option>
                             <option value="NanumSquareAc" data-weight="100,300,700,800">나눔스퀘어 Ac</option>
+							<option value="IBMPlexSansKR" data-weight="100,200,300,400,500,600,700">IBMPIexSansKR</option>
                         </select>
                     </div>
                     <div class="font-controller">
@@ -70,7 +71,18 @@
     </div>
     <script type="text/javascript">
     //<![CDATA[
-        $(".ui-font-family").on("change",importCss);
+		var defaultHtml = $(".previewer").html();
+		$(document.body).on("change",".ui-font-family",importCss)        
+		.on("click",".previewer",editPreviewerText)
+		.on("focusout",".edit-previewer",changePreviewerText);
+		function editPreviewerText(){
+			var preStyle = $(this).attr("style") || null;
+			$(this).after("<textarea class='edit-previewer'></textarea>").next().attr("style",preStyle).focus().end().hide();
+		}
+		function changePreviewerText(){			
+			var editText = $(this).val().replace(/(?:\r\n|\r|\n)/g, '<br/>') || defaultHtml;			
+			$(this).prev().show().html(editText).end().remove()
+		}
         function importCss(){
             var
             btns = $("#radioset"),
