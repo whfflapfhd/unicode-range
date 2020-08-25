@@ -1,0 +1,29 @@
+@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 700;
+    src: url(Subset/IBMPlexSansKR-Bold.woff2) format('woff2'),url(Subset/IBMPlexSansKR-Bold.woff) format('woff'),url(Subset/IBMPlexSansKR-Bold.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 100;
+    src: url(Subset/IBMPlexSansKR-ExtraLight.woff2) format('woff2'),url(Subset/IBMPlexSansKR-ExtraLight.woff) format('woff'),url(Subset/IBMPlexSansKR-ExtraLight.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 200;
+    src: url(Subset/IBMPlexSansKR-Light.woff2) format('woff2'),url(Subset/IBMPlexSansKR-Light.woff) format('woff'),url(Subset/IBMPlexSansKR-Light.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 500;
+    src: url(Subset/IBMPlexSansKR-Medium.woff2) format('woff2'),url(Subset/IBMPlexSansKR-Medium.woff) format('woff'),url(Subset/IBMPlexSansKR-Medium.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 300;
+    src: url(Subset/IBMPlexSansKR-Regular.woff2) format('woff2'),url(Subset/IBMPlexSansKR-Regular.woff) format('woff'),url(Subset/IBMPlexSansKR-Regular.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 600;
+    src: url(Subset/IBMPlexSansKR-SemiBold.woff2) format('woff2'),url(Subset/IBMPlexSansKR-SemiBold.woff) format('woff'),url(Subset/IBMPlexSansKR-SemiBold.ttf) format('truetype')
+}@font-face {
+    font-family: IBMPlexSansKR;
+    font-weight: 400;
+    src: url(Subset/IBMPlexSansKR-Text.woff2) format('woff2'),url(Subset/IBMPlexSansKR-Text.woff) format('woff'),url(Subset/IBMPlexSansKR-Text.ttf) format('truetype')
+}
