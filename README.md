@@ -19,5 +19,3 @@ https://github.com/isangho/SpoqaHanSans-EN
 
 [폰트툴즈의 pyftsubset을 사용한 폰트 서브셋 만들기]
 https://www.44bits.io/ko/post/optimization_webfont_with_pyftsubnet
-
-test
