@@ -60,6 +60,7 @@ function runSubset(){
 
 #
 # bash 파일 실행 시 매개변수
+# EX) bash build_subset kr Nexon-Gothic-ttf [옵션 full || kr ]
 #  $1 : kr || google
 # $2 : 폰트이름
 # $3 : unicode type  full - (나눔고딕 기준 119개) || kr - (노토 KR 기준 92개) 옵션. 아무것도 쓰지 않으면 텍스트파일 기준으로 만듬

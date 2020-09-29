@@ -2,7 +2,7 @@
 
 # kr 타입만 생성 됩니다.
 # argument [font-weight1 font-weight2.... font-name]
-# ex) bash 100 300 700 Nexon-Gothic
+# ex) bash make_css 700 300 100 Nexon-Gothic-otf
 
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
